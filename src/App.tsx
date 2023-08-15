@@ -1,14 +1,17 @@
 import { Button } from "./components/Button";
+import { ThemeProvider } from "styled-components";
+import { defaultThemes } from "./styles/themes/default";
+
 
 function App() {
   return (
-    <div>
+    <ThemeProvider theme={defaultThemes}>
       <Button varient="primary" />
       <Button varient="secondary" />
       <Button varient="danger" />
       <Button varient="success" />
       <Button />
-    </div>
+    </ThemeProvider>
   )
 }
 
