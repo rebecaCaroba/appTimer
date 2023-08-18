@@ -15,6 +15,7 @@ export const GlobalStyle = createGlobalStyle`
     body {
         background-color: ${(props) => props.theme['gray-900']};
         color: ${(props) => props.theme['gray-100']};
+        -webkit-font-smoothing: antialiased;
     }
 
     body, input-security, textarea, button {
