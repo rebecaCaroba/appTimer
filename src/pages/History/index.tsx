@@ -48,6 +48,14 @@ export function History() {
                 <Status statusColor="green">Concluído</Status>
               </td>
             </tr>
+            <tr>
+              <td>Terefa</td>
+              <td>20 minutos</td>
+              <td>Há 2 meses</td>
+              <td>
+                <Status statusColor="green">Concluído</Status>
+              </td>
+            </tr>
           </tbody>
         </table>
       </HistoryList>
