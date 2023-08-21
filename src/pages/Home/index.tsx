@@ -4,8 +4,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as zod from 'zod'
 import { useState, useEffect } from 'react'
 import { differenceInSeconds } from 'date-fns'
-import { NewCycleForm } from './components/NewCycleForm'
 import { Countdown } from './components/Countdown'
+import { NewCycleForm } from './components/NewCycleForm'
+
 import {
   HomeContainer,
   StartCountdownButton,
@@ -30,6 +31,10 @@ interface Cycle {
   interruptedDate?: Date
   finishedDate?: Date
 }
+/**
+ *  Props Drilling => Quando a gente tem MUITAS propriedades APENAS para comunicação entre componentes
+ *  Context API => Permite o compartilharmos informações entre VÁRIOS componentes ao mesmo tempo
+ */
 
 export function Home() {
   const [cycles, setCyles] = useState<Cycle[]>([])
