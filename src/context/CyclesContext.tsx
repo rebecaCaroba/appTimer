@@ -68,7 +68,7 @@ export function CyclesContextProvider({
     setCyles((state) =>
       state.map((cycle) => {
         if (cycle.id === activeCyclesId) {
-          return { ...cycle, interryptDate: new Date() }
+          return { ...cycle, interruptedDate: new Date() }
         } else {
           return cycle
         }
