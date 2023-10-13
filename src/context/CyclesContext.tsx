@@ -1,10 +1,17 @@
-import { ReactNode, createContext, useState, useReducer } from 'react'
+import {
+  ReactNode,
+  createContext,
+  useState,
+  useReducer,
+  useEffect,
+} from 'react'
 import { Cycle, cyclesReducer } from '../reducers/reducer'
 import {
   addNewCycleAction,
   interrupCurrentCycleAction,
   markCurrentCycleAsFinishedAction,
 } from '../reducers/action'
+import { differenceInSeconds } from 'date-fns'
 
 interface CreateNewCycleData {
   task: string
@@ -31,15 +38,42 @@ interface CyclesContextProviderProps {
 export function CyclesContextProvider({
   children,
 }: CyclesContextProviderProps) {
-  const [cycleState, dispatch] = useReducer(cyclesReducer, {
-    cycles: [],
-    activeCyclesId: null,
-  })
+  const [cycleState, dispatch] = useReducer(
+    cyclesReducer,
+    {
+      cycles: [],
+      activeCyclesId: null,
+    },
+    () => {
+      const storedStateAsJSON = localStorage.getItem(
+        '@ignite-timer:cycles-statev1.0.0',
+      )
 
-  const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
+      if (storedStateAsJSON) {
+        return JSON.parse(storedStateAsJSON)
+      }
+    },
+  )
+
   const { cycles, activeCyclesId } = cycleState
 
   const activeCycle = cycles.find((cycle) => cycle.id === activeCyclesId)
+
+  const [amountSecondsPassed, setAmountSecondsPassed] = useState(() => {
+    if (activeCycle) {
+      return differenceInSeconds(new Date(), new Date(activeCycle.startDate))
+    }
+    return 0
+  })
+
+  useEffect(() => {
+    const stateJSON = JSON.stringify(cycleState)
+    localStorage.setItem('@ignite-timer:cycles-statev1.0.0', stateJSON)
+  }, [cycleState])
+
+  function setSecondsPassed(seconds: number) {
+    setAmountSecondsPassed(seconds)
+  }
 
   function markCurrentCycleAsFinished() {
     dispatch(markCurrentCycleAsFinishedAction())
@@ -59,10 +93,6 @@ export function CyclesContextProvider({
     }
     dispatch(addNewCycleAction(newCycle))
     setAmountSecondsPassed(0)
-  }
-
-  function setSecondsPassed(seconds: number) {
-    setAmountSecondsPassed(seconds)
   }
 
   return (

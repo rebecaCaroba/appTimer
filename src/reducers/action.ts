@@ -9,7 +9,9 @@ export enum ActionTypes {
 export function addNewCycleAction(newCycle: Cycle) {
   return {
     type: ActionTypes.ADD_NEW_CYCLE,
-    payload: { newCycle },
+    payload: {
+      newCycle,
+    },
   }
 }
 
